@@ -10,7 +10,7 @@ bool clk_en[3] = { false, false, false };
 
 uint32_t freq[3] = { 7000000UL, 0UL, 0UL };
 
-// TODO do the calibration https://github.com/etherkit/Si5351Arduino/blob/master/examples/si5351_calibration/si5351_calibration.ino
+const int32_t correction_factor = 144200L; // https://github.com/etherkit/Si5351Arduino/blob/master/examples/si5351_calibration/si5351_calibration.ino
 
 const char* ssid = "Si5351_VFO_esp8266";
 const char* password = "vfo12345678";
@@ -122,7 +122,7 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.softAPIP());
 
-  bool initialized = si5351.init(SI5351_CRYSTAL_LOAD_8PF, 0, 0);
+  bool initialized = si5351.init(SI5351_CRYSTAL_LOAD_8PF, 0, correction_factor);
 
   if (!initialized) {
     Serial.println("Si5351 initialization failed");
